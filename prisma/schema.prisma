@@ -12,3 +12,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+//yarn prisma migrate dev
+
+model Form {
+  id         String    @id @default(uuid())
+  data       Json
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("forms")
+}
