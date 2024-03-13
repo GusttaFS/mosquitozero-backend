@@ -29,8 +29,6 @@ model User {
 
 model Order {
   id         String    @id @default(uuid())
-  email      String
-  password   String
   data       Json
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
