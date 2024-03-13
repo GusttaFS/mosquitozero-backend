@@ -22,8 +22,23 @@ model User {
   data       Json
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
+  orders     Order[]
 
   @@map("users")
+}
+
+model Order {
+  id         String    @id @default(uuid())
+  email      String
+  password   String
+  data       Json
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    String
+  forms      Form[]
+
+  @@map("orders")
 }
 
 model Form {
@@ -31,6 +46,8 @@ model Form {
   data       Json
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
+  order      Order     @relation(fields: [order_id], references: [id])
+  order_id   String
 
   @@map("forms")
 }
