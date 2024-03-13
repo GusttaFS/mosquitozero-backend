@@ -8,7 +8,7 @@ class GetUserController {
         const user_id = req.user_id;
 
         validateId(user_id);
-        
+
         const getUserService = new GetUserService();
         const user = await getUserService.execute(user_id);
         return res.json(user);

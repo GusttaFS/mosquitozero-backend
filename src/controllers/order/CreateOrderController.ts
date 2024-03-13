@@ -8,7 +8,7 @@ class CreateOrderController {
     async handle(req: Request, res: Response) {
         const user_id = req.headers.user_id as string;
         const { data } = req.body;
-        
+
         validateId(user_id);
         validateData(data);
 
