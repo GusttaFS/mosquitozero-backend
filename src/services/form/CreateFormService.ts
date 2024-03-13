@@ -3,17 +3,20 @@ import prismaClient from "../../prisma";
 
 
 interface FormRequest {
+    order_id: string;
     data: JsonObject;
 }
 
 
 class CreateFormService {
-    async execute({ data }: FormRequest) {
+    async execute({ order_id, data }: FormRequest) {
         const form = await prismaClient.form.create({
             data: {
-                data: data
-            },
+                order_id: order_id,
+                data: data,
+            }
         });
+        
         return form;
     }
 }
