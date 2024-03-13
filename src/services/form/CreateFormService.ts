@@ -4,7 +4,7 @@ import prismaClient from "../../prisma";
 
 interface FormRequest {
     data: JsonObject;
-};
+}
 
 
 class CreateFormService {
@@ -15,7 +15,7 @@ class CreateFormService {
             },
         });
         return form;
-    };
-};
+    }
+}
 
 export { CreateFormService };
