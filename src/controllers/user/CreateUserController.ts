@@ -8,6 +8,7 @@ import { validatePassword } from '../../validators/validatePassword';
 class CreateUserController {
     async handle(req: Request, res: Response) {
         const { email, password, data } = req.body;
+        
         validateEmail(email);
         validatePassword(password);
         validateData(data);

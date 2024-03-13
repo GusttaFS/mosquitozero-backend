@@ -7,6 +7,7 @@ import { validatePassword } from '../../validators/validatePassword';
 class AuthUserController {
     async handle(req: Request, res: Response) {
         const { email, password } = req.body;
+        
         validateEmail(email);
         validatePassword(password);
 
