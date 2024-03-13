@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AuthUserService } from '../../services/user/AuthUserService';
 import { validateEmail } from '../../validators/validateEmail';
-import { validatePassword } from '../../validators/validatePassWord';
+import { validatePassword } from '../../validators/validatePassword';
 
 
 class AuthUserController {
@@ -9,7 +9,7 @@ class AuthUserController {
         const { email, password } = req.body;
         validateEmail(email);
         validatePassword(password);
-        
+
         const authUserService = new AuthUserService();
         const user = await authUserService.execute({ email, password });
         return res.json(user);

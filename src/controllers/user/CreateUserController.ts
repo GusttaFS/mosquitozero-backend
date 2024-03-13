@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { CreateUserService } from '../../services/user/CreateUserService';
 import { validateEmail } from '../../validators/validateEmail';
 import { validateData } from '../../validators/validateData';
-import { validatePassword } from '../../validators/validatePassWord';
+import { validatePassword } from '../../validators/validatePassword';
 
 
 class CreateUserController {
