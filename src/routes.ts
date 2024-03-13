@@ -1,9 +1,8 @@
 import { Router, Request, Response } from 'express';
+import { CreateFormController } from './controllers/form/CreateFormController';
 
 const router = Router();
 
-router.get('/form', (req: Request, res: Response) => {
-    return res.json({ ok: 'nome' });
-});
+router.get('/form', new CreateFormController().handle);
 
 export { router };
