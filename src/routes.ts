@@ -4,6 +4,7 @@ import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController';
 
 import { isAuthenticated } from './middlewares/isAuthenticated';
+import { GetUserController } from './controllers/user/GetUserController';
 
 
 const router = Router();
@@ -12,6 +13,8 @@ const router = Router();
 router.post('/user', new CreateUserController().handle);
 
 router.post('/login', new AuthUserController().handle);
+
+router.get('/user', isAuthenticated, new GetUserController().handle);
 
 
 // ------------------- FORM -------------------

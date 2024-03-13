@@ -28,6 +28,7 @@ class CreateUserService {
                 updated_at: true,
             }
         });
+        
         return form;
     }
 }
