@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { GetUserService } from '../../services/user/GetUserService';
 
+
 class GetUserController {
     async handle(req: Request, res: Response) {
         const user_id = req.user_id;
