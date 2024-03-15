@@ -1,13 +1,13 @@
-import { Router, Request, Response } from 'express';
-import { CreateFormController } from './controllers/form/CreateFormController';
+import { Router } from 'express';
+import { CreateVisitationController } from './controllers/visitation/CreateVisitationController';
 import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController';
 
 import { isAuthenticated } from './middlewares/isAuthenticated';
 import { GetUserController } from './controllers/user/GetUserController';
 import { UpdateUserDataController } from './controllers/user/UpdateUserDataController';
-import { CreateOrderController } from './controllers/order/CreateOrderController';
-import { ListFormsOrderController } from './controllers/form/ListFormsOrderController';
+import { CreateVisitOrderController } from './controllers/visit_order/CreateVisitOrderController';
+import { ListVisitationsOrderController } from './controllers/visitation/ListVisitationsOrderController';
 
 
 const router = Router();
@@ -22,13 +22,14 @@ router.get('/user', isAuthenticated, new GetUserController().handle);
 router.patch('/user', isAuthenticated, new UpdateUserDataController().handle);
 
 
-// ------------------ ORDER -------------------
-router.post('/order', new CreateOrderController().handle);
+// ------------------ VIST ORDER -------------------
+router.post('/visit-order', new CreateVisitOrderController().handle);
 
 
-// ------------------- FORM -------------------
-router.post('/form', isAuthenticated, new CreateFormController().handle);
+// ------------------- VISITATION -------------------
+router.post('/visitation', isAuthenticated, new CreateVisitationController().handle);
 
-router.get('/forms/order', isAuthenticated, new ListFormsOrderController().handle);
+router.get('/visitations/visit-order', isAuthenticated, new ListVisitationsOrderController().handle);
+
 
 export { router };

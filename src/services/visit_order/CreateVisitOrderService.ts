@@ -2,23 +2,23 @@ import { JsonObject } from "@prisma/client/runtime/library";
 import prismaClient from "../../prisma";
 
 
-interface OrderRequest {
+interface VisitOrderRequest {
     user_id: string;
     data: JsonObject;
 }
 
 
-class CreateOrderService {
-    async execute({ user_id, data }: OrderRequest) {
-        const order = await prismaClient.order.create({
+class CreateVisitOrderService {
+    async execute({ user_id, data }: VisitOrderRequest) {
+        const visitOrder = await prismaClient.visitOrder.create({
             data: {
                 user_id: user_id,
                 data: data,
             }
         }); 
 
-        return order;
+        return visitOrder;
     }
 }
 
-export { CreateOrderService };
+export { CreateVisitOrderService };

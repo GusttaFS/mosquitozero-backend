@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { CreateOrderService } from '../../services/order/CreateOrderService';
+import { CreateVisitOrderService } from '../../services/visit_order/CreateVisitOrderService';
 import { validateId } from '../../validators/validateId';
 import { validateData } from '../../validators/validateData';
 
 
-class CreateOrderController {
+class CreateVisitOrderController {
     async handle(req: Request, res: Response) {
         const user_id = req.headers.user_id as string;
         const { data } = req.body;
@@ -12,10 +12,10 @@ class CreateOrderController {
         validateId(user_id);
         validateData(data);
 
-        const createOrderService = new CreateOrderService();
-        const order = createOrderService.execute({ user_id, data });
-        return res.json(order);
+        const createVisitOrderService = new CreateVisitOrderService();
+        const visitOrder = createVisitOrderService.execute({ user_id, data });
+        return res.json(visitOrder);
     }
 }
 
-export { CreateOrderController }
+export { CreateVisitOrderController }
