@@ -16,36 +16,36 @@ datasource db {
 //yarn prisma migrate dev
 
 model User {
-  id         String    @id @default(uuid())
-  email      String
-  password   String
-  data       Json
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-  orders     Order[]
+  id          String       @id @default(uuid())
+  email       String
+  password    String
+  data        Json
+  created_at  DateTime?    @default(now())
+  updated_at  DateTime?    @default(now())
+  visit_order VisitOrder[]
 
   @@map("users")
 }
 
-model Order {
-  id         String    @id @default(uuid())
-  data       Json
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-  user       User      @relation(fields: [user_id], references: [id])
-  user_id    String
-  forms      Form[]
+model VisitOrder {
+  id          String       @id @default(uuid())
+  data        Json
+  created_at  DateTime?    @default(now())
+  updated_at  DateTime?    @default(now())
+  user        User         @relation(fields: [user_id], references: [id])
+  user_id     String
+  visitations Visitation[]
 
-  @@map("orders")
+  @@map("visit_order")
 }
 
-model Form {
-  id         String    @id @default(uuid())
-  data       Json
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-  order      Order     @relation(fields: [order_id], references: [id])
-  order_id   String
+model Visitation {
+  id             String     @id @default(uuid())
+  data           Json
+  created_at     DateTime?  @default(now())
+  updated_at     DateTime?  @default(now())
+  visit_order    VisitOrder @relation(fields: [visit_order_id], references: [id])
+  visit_order_id String
 
-  @@map("forms")
+  @@map("visitations")
 }
