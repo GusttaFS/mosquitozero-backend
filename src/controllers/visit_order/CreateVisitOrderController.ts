@@ -13,7 +13,7 @@ class CreateVisitOrderController {
         validateData(data);
 
         const createVisitOrderService = new CreateVisitOrderService();
-        const visitOrder = createVisitOrderService.execute({ user_id, data });
+        const visitOrder = await createVisitOrderService.execute({ user_id, data });
         return res.json(visitOrder);
     }
 }
