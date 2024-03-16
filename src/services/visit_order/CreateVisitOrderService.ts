@@ -15,7 +15,7 @@ class CreateVisitOrderService {
                 user_id: user_id,
                 data: data,
             }
-        }); 
+        });
 
         return visitOrder;
     }

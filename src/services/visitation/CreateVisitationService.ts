@@ -13,10 +13,10 @@ class CreateVisitationService {
         const visitation = await prismaClient.visitation.create({
             data: {
                 visit_order_id: visit_order_id,
-                data: data,
+                data: data
             }
         });
-        
+
         return visitation;
     }
 }

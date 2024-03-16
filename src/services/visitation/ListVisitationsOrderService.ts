@@ -10,9 +10,10 @@ class ListVisitationsOrderService {
     async execute({ visit_order_id }: VisitationRequest) {
         const visitation = await prismaClient.visitation.findMany({
             where: {
-                visit_order_id: visit_order_id,
+                visit_order_id: visit_order_id
             }
         });
+
         return visitation;
     }
 }

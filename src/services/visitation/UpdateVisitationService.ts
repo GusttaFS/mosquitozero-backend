@@ -7,13 +7,14 @@ interface VisitationRequest {
     data: JsonObject;
 }
 
+
 class UpdateVisitationService {
-    async execute({ visitation_id, data } : VisitationRequest) {
+    async execute({ visitation_id, data }: VisitationRequest) {
         const visitation = await prismaClient.visitation.update({
             where: {
-                id: visitation_id,
+                id: visitation_id
             }, data: {
-                data: data,
+                data: data
             }
         });
 
