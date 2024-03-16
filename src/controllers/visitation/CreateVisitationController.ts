@@ -14,7 +14,7 @@ class CreateVisitationController {
 
         const createVisitationService = new CreateVisitationService;
         const visitation = await createVisitationService.execute({ visit_order_id, data });
-        return res.json(visitation);
+        return res.status(201).json(visitation);
     };
 };
 

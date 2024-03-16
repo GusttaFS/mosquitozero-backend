@@ -14,7 +14,7 @@ class CreateVisitOrderController {
 
         const createVisitOrderService = new CreateVisitOrderService();
         const visitOrder = await createVisitOrderService.execute({ user_id, data });
-        return res.json(visitOrder);
+        return res.status(201).json(visitOrder);
     }
 }
 

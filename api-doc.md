@@ -71,7 +71,7 @@ curl --location 'localhost:8080/user' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `200 OK` | *JSON* contendo apenas os campos `id`, `email`, `data` e `created_at`. |
+| `201 CREATED` | *JSON* contendo apenas os campos `id`, `email`, `data` e `created_at`. |
 
 #### Exemplo 
 ````
