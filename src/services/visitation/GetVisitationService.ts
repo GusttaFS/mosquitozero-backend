@@ -11,6 +11,13 @@ class GetVisitationService {
         const visitation = prismaClient.visitation.findFirst({
             where: {
                 id: visitation_id
+            },
+            select: {
+                id: true,
+                data: true,
+                created_at: true,
+                updated_at: true,
+                visit_order: true
             }
         });
 
