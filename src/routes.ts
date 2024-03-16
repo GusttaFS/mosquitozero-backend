@@ -8,6 +8,7 @@ import { GetUserController } from './controllers/user/GetUserController';
 import { UpdateUserDataController } from './controllers/user/UpdateUserDataController';
 import { CreateVisitOrderController } from './controllers/visit_order/CreateVisitOrderController';
 import { ListVisitationsOrderController } from './controllers/visitation/ListVisitationsOrderController';
+import { UpdateVisitationController } from './controllers/visitation/UpdateVisitationController';
 
 
 const router = Router();
@@ -30,6 +31,8 @@ router.post('/visit-order', new CreateVisitOrderController().handle);
 router.post('/visitation', isAuthenticated, new CreateVisitationController().handle);
 
 router.get('/visitations/visit-order', isAuthenticated, new ListVisitationsOrderController().handle);
+
+router.patch('/visitation', isAuthenticated, new UpdateVisitationController().handle);
 
 
 export { router };
