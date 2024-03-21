@@ -10,6 +10,7 @@ import { CreateVisitOrderController } from './controllers/visit_order/CreateVisi
 import { ListVisitationsOrderController } from './controllers/visitation/ListVisitationsOrderController';
 import { UpdateVisitationController } from './controllers/visitation/UpdateVisitationController';
 import { GetVisitationController } from './controllers/visitation/GetVisitationController';
+import { GetVisitOrdersController } from './controllers/visit_order/GetVisitOrdersController';
 
 
 const router = Router();
@@ -27,6 +28,7 @@ router.patch('/user', isAuthenticated, new UpdateUserDataController().handle);
 // ------------------ VIST ORDER -------------------
 router.post('/visit-order', new CreateVisitOrderController().handle);
 
+router.get('/visit-orders', isAuthenticated, new GetVisitOrdersController().handle);
 
 // ------------------- VISITATION -------------------
 router.post('/visitation', isAuthenticated, new CreateVisitationController().handle);
