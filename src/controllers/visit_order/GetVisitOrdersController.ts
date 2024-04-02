@@ -14,5 +14,5 @@ class GetVisitOrdersController {
         return res.json(visitOrders);
     }
 }
-
+ 
 export { GetVisitOrdersController }

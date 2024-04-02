@@ -6,23 +6,26 @@ import prismaClient from "../../prisma";
 interface UserRequest {
     email: string;
     password: string;
+    name: string;
     data: JsonObject;
 };
 
 
 class CreateUserService {
-    async execute({ email, password, data }: UserRequest) {
+    async execute({ email, password, name, data }: UserRequest) {
         const passwordHash = await hash(password, 8);
         
         const form = await prismaClient.user.create({
             data: {
                 email: email,
                 password: passwordHash,
+                name: name,
                 data: data,
             },
             select: {
                 id: true,
                 email: true,
+                name: true,
                 data: true,
                 created_at: true,
             }

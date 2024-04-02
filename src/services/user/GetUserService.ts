@@ -10,6 +10,7 @@ class GetUserService {
             select: {
                 id: true,
                 email: true,
+                name: true,
                 data: true,
                 created_at: true,
                 updated_at: true,
