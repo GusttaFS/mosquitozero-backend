@@ -11,6 +11,9 @@ class GetVisitOrdesService {
         const visitOrders = await prismaClient.visitOrder.findMany({
             where: {
                 user_id: user_id
+            }, 
+            orderBy: {
+                created_at: 'desc'
             }
         });
 
