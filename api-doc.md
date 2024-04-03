@@ -16,7 +16,7 @@ Documentação da API REST do [MosquitoZero](https://github.com/GusttaFS/mosquit
 
 ### *Criar um usuário*
 
-Este endpoint permite o cadastro do usuário no sistema fornecendo o e-mail a senha e o "data", um objeto *JSON* que deve conter os demais dados necessários para o cadastro do usuário. Em retorno receberá um *JSON* contendo o usuário recém cadastrado no sistema do MosquitoZero.
+Este endpoint permite o cadastro do usuário no sistema fornecendo o e-mail, a senha, o nome e o "data", um objeto *JSON* que deve conter os demais dados necessários para o cadastro do usuário. Em retorno receberá um *JSON* contendo o usuário recém cadastrado no sistema do MosquitoZero.
 
 #### URL
 ````
@@ -29,6 +29,7 @@ POST /user
 | ---------- | ------ | ----------- | ------------ |
 | `email` | String | Obrigatório | O endereço de e-mail para o usuário. |
 | `password` | String | Obrigatório | A senha para a conta do usuário. |
+| `name` | String | Obrigatório | O nome do usuário. |
 | `data` | *JSON* | Obrigatório | As informações restantes do usuário. |
 
 #### Exemplo
@@ -38,13 +39,12 @@ POST /user
 {
     "email": "user@email.com",
     "password": "mypassword",
+    "name": "User",
     "data": {
-        "nome": "User",
-        "cargo": "Agente",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1,
-        "situacao": "Disponível"
+        "phoneNumber": "(00) 90000-0000",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     }
 }
 ````
@@ -56,13 +56,12 @@ curl --location 'localhost:8080/user' \
 --data-raw '{
     "email": "user@email.com",
     "password": "mypassword",
+    "name": "User",
     "data": {
-        "nome": "User",
-        "cargo": "Agente",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1,
-        "situacao": "Disponível"
+        "phoneNumber": "(00) 90000-0000",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     }
 }'
 ````
@@ -71,20 +70,20 @@ curl --location 'localhost:8080/user' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `201 CREATED` | *JSON* contendo apenas os campos `id`, `email`, `data` e `created_at`. |
+| `201 CREATED` | *JSON* contendo os campos `id`, `email`, `name`, `data` e `created_at`. |
 
 #### Exemplo 
 ````
 {
     "id": "c4e2d072-9c5a-41fb-8aa4-feacbf9b7134",
     "email": "user@email.com",
+    "password": "mypassword",
+    "name": "User",
     "data": {
-        "nome": "User",
-        "cargo": "Agente",
-        "situacao": "Disponível",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1
+        "phoneNumber": "(00) 90000-0000",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     },
     "created_at": "2024-03-13T23:05:02.431Z"
 }
@@ -239,20 +238,20 @@ curl --location 'localhost:8080/user' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `200 OK` | *JSON* contendo os campos `id`, `email`, `data`, `created_at` e `updated_at`. |
+| `200 OK` | *JSON* contendo os campos `id`, `email`, `data`, `name`, `created_at` e `updated_at`. |
 
 #### Exemplo 
 ````
 {
     "id": "c4e2d072-9c5a-41fb-8aa4-feacbf9b7134",
     "email": "user@email.com",
+    "password": "mypassword",
+    "name": "User",
     "data": {
-        "nome": "User",
-        "cargo": "Agente",
-        "situacao": "Disponível",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1
+        "phoneNumber": "(00) 90000-0000",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     },
     "created_at": "2024-03-13T23:05:02.431Z",
     "updated_at": "2024-03-13T23:05:02.431Z"
@@ -281,7 +280,7 @@ curl --location 'localhost:8080/user' \
 
 `Precisa de Autenticação`
 
-Este endpoint permite a atualização do campo "data", que contêm os dados de cadastro, exceto email e senha, do usuário que esteja atualmente logado no sistema MosquitoZero.
+Este endpoint permite a atualização do campo "data", que deve conter os demais dados de cadastro, e também do nome do usuário que esteja atualmente logado no sistema MosquitoZero. O email e senha não são atualizados.
 
 #### URL
 ````
@@ -299,13 +298,12 @@ PATCH /user
 * Body
 ````
 {
+    "name": "User Updated"
     "data": {
-        "nome": "User Update",
-        "cargo": "Agente",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1,
-        "situacao": "Indisponível"
+        "phoneNumber": "(11) 91111-1111",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     }
 }
 ````
@@ -316,13 +314,12 @@ curl --location --request PATCH 'localhost:8080/user' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNzEwMzcxNTg0LCJleHAiOjE3MTA0NTc5ODQsInN1YiI6ImM0ZTJkMDcyLTljNWEtNDFmYi04YWE0LWZlYWNiZjliNzEzNCJ9.FB2pnUBnt12cqkHw5AbdE91fv3I-e_I8saNOjy3aHaU' \
 --data '{
+    "name": "User Updated"
     "data": {
-        "nome": "User Update",
-        "cargo": "Agente",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1,
-        "situacao": "Indisponível"
+        "phoneNumber": "(11) 91111-1111",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     }
 }'
 ````
@@ -331,20 +328,19 @@ curl --location --request PATCH 'localhost:8080/user' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `200 OK` | *JSON* contendo os campos `id`, `email`, `data` e `updated_at`. |
+| `200 OK` | *JSON* contendo os campos `id`, `email`,`name`, `data` e `updated_at`. |
 
 #### Exemplo 
 ````
 {
     "id": "c4e2d072-9c5a-41fb-8aa4-feacbf9b7134",
     "email": "user@email.com",
+    "name": "User Updated"
     "data": {
-        "nome": "User Update",
-        "cargo": "Agente",
-        "situacao": "Indisponível",
-        "telefone": "(DDD) 90000-0000",
-        "matricula": 123,
-        "anosExperiencia": 1
+        "phoneNumber": "(11) 91111-1111",
+        "registNumber": 10000,
+        "experience": 1,
+        "city": "Campina Grande"
     },
     "updated_at": "2024-03-13T23:05:02.431Z"
 }
