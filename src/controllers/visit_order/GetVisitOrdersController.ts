@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GetVisitOrdesService } from '../../services/visit_order/GetVisitOrdesService';
+import { GetVisitOrdersService } from '../../services/visit_order/GetVisitOrdesService';
 import { validateId } from '../../validators/validateId';
 
 
@@ -9,8 +9,8 @@ class GetVisitOrdersController {
 
         validateId(user_id);
 
-        const getVisitOrdesService = new GetVisitOrdesService();
-        const visitOrders = await getVisitOrdesService.execute({ user_id });
+        const getVisitOrdersService = new GetVisitOrdersService();
+        const visitOrders = await getVisitOrdersService.execute({ user_id });
         return res.json(visitOrders);
     }
 }

@@ -6,7 +6,7 @@ interface RequestVisitOrder {
 }
 
 
-class GetVisitOrdesService {
+class GetVisitOrdersService {
     async execute({ user_id }: RequestVisitOrder) {
         const visitOrders = await prismaClient.visitOrder.findMany({
             where: {
@@ -21,4 +21,4 @@ class GetVisitOrdesService {
     }
 }
 
-export { GetVisitOrdesService };
+export { GetVisitOrdersService };
