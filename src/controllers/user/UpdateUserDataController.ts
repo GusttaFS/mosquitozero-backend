@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UpdateUserDataService } from '../../services/user/UpdateUserDataService';
 import { validateData } from '../../validators/validateData';
 import { validateId } from '../../validators/validateId';
+import { validateName } from '../../validators/validateName';
 
 
 class UpdateUserDataController {
@@ -10,6 +11,7 @@ class UpdateUserDataController {
         const { name, data } = req.body;
 
         validateId(user_id);
+        validateName(name);
         validateData(data);
 
         const updateUserDataService = new UpdateUserDataService();

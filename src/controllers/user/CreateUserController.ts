@@ -3,6 +3,7 @@ import { CreateUserService } from '../../services/user/CreateUserService';
 import { validateEmail } from '../../validators/validateEmail';
 import { validateData } from '../../validators/validateData';
 import { validatePassword } from '../../validators/validatePassword';
+import { validateName } from '../../validators/validateName';
 
 
 class CreateUserController {
@@ -11,6 +12,7 @@ class CreateUserController {
 
         validateEmail(email);
         validatePassword(password);
+        validateName(name);
         validateData(data);
 
         const createUserService = new CreateUserService;
