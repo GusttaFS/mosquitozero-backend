@@ -14,7 +14,8 @@ class UpdateVisitationService {
             where: {
                 id: visitation_id
             }, data: {
-                data: data
+                data: data,
+                updated_at: new Date()
             }
         });
 
