@@ -18,15 +18,18 @@ class UpdateUserDataService {
             data: {
                 name: name,
                 data: data,
+                updated_at: new Date()
             },
             select: {
                 id: true,
                 email: true,
                 name: true,
                 data: true,
-                updated_at: true,
+                created_at: true,
+                updated_at: true
             }
         });
+        
         return user;
     }
 }

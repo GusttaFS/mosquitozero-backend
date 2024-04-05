@@ -3,16 +3,16 @@ import prismaClient from "../../prisma";
 
 
 interface VisitationRequest {
-    visit_order_id: string;
+    visitation_area_id: string;
     data: JsonObject;
 }
 
 
 class CreateVisitationService {
-    async execute({ visit_order_id, data }: VisitationRequest) {
+    async execute({ visitation_area_id, data }: VisitationRequest) {
         const visitation = await prismaClient.visitation.create({
             data: {
-                visit_order_id: visit_order_id,
+                visitation_area_id: visitation_area_id,
                 data: data
             }
         });

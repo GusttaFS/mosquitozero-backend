@@ -28,6 +28,7 @@ class CreateUserService {
                 name: true,
                 data: true,
                 created_at: true,
+                updated_at: true
             }
         });
         

@@ -16,37 +16,59 @@ datasource db {
 //yarn prisma migrate dev
 
 model User {
-  id          String       @id @default(uuid())
-  email       String
-  password    String
-  name        String
-  data        Json
-  created_at  DateTime?    @default(now())
-  updated_at  DateTime?    @default(now())
-  visit_order VisitOrder[]
+  id       String @id @default(uuid())
+  email    String
+  password String
+  name     String
+  data     Json
+
+  visitation_areas VisitationArea[]
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
 
   @@map("users")
 }
 
-model VisitOrder {
-  id          String       @id @default(uuid())
-  data        Json
-  created_at  DateTime?    @default(now())
-  updated_at  DateTime?    @default(now())
+model Cycle {
+  id        String  @id @default(uuid())
+  data      Json
+  is_active Boolean @default(true)
+
+  visitation_areas VisitationArea[]
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("cycles")
+}
+
+model VisitationArea {
+  id           String  @id @default(uuid())
+  data         Json
+  is_completed Boolean @default(false)
+
   user        User         @relation(fields: [user_id], references: [id])
   user_id     String
+  cycle       Cycle?       @relation(fields: [cycle_id], references: [id])
+  cycle_id    String?
   visitations Visitation[]
 
-  @@map("visit_order")
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("visitation_areas")
 }
 
 model Visitation {
-  id             String     @id @default(uuid())
-  data           Json
-  created_at     DateTime?  @default(now())
-  updated_at     DateTime?  @default(now())
-  visit_order    VisitOrder @relation(fields: [visit_order_id], references: [id])
-  visit_order_id String
+  id   String @id @default(uuid())
+  data Json
+
+  visitation_area    VisitationArea @relation(fields: [visitation_area_id], references: [id])
+  visitation_area_id String
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
 
   @@map("visitations")
 }

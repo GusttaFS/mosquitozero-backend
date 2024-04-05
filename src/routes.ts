@@ -1,46 +1,72 @@
 import { Router } from 'express';
-import { CreateVisitationController } from './controllers/visitation/CreateVisitationController';
+
 import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController';
-
-import { isAuthenticated } from './middlewares/isAuthenticated';
 import { GetUserController } from './controllers/user/GetUserController';
 import { UpdateUserDataController } from './controllers/user/UpdateUserDataController';
-import { CreateVisitOrderController } from './controllers/visit_order/CreateVisitOrderController';
-import { ListVisitationsOrderController } from './controllers/visitation/ListVisitationsOrderController';
+
+import { CreateCycleController } from './controllers/cycle/CreateCycleController';
+import { PatchCycleController } from './controllers/cycle/PatchCycleController';
+import { GetCycleController } from './controllers/cycle/GetCycleController';
+import { ListCyclesController } from './controllers/cycle/ListCyclesController';
+
+import { CreateVisitationAreaController } from './controllers/visitation_area/CreateVisitationAreaController';
+import { PatchVisitationAreaController } from './controllers/visitation_area/PatchVisitationAreaController';
+import { GetVisitationAreaController } from './controllers/visitation_area/GetVisitationAreaController';
+import { ListVisitationAreasCycleController } from './controllers/visitation_area/ListVisitationAreasCycleController';
+
+import { CreateVisitationController } from './controllers/visitation/CreateVisitationController';
 import { UpdateVisitationController } from './controllers/visitation/UpdateVisitationController';
 import { GetVisitationController } from './controllers/visitation/GetVisitationController';
-import { GetVisitOrdersController } from './controllers/visit_order/GetVisitOrdersController';
-import { GetVisitOrderController } from './controllers/visit_order/GetVisitOrderController';
+import { ListVisitationsController } from './controllers/visitation/ListVisitationsController';
+
+import { isAuthenticated } from './middlewares/isAuthenticated';
 
 
 const router = Router();
 
-// ------------------- USER -------------------
+
+// // ------------------ USER -------------------
 router.post('/user', new CreateUserController().handle);
+
+router.patch('/user', isAuthenticated, new UpdateUserDataController().handle);
 
 router.post('/login', new AuthUserController().handle);
 
 router.get('/user', isAuthenticated, new GetUserController().handle);
 
-router.patch('/user', isAuthenticated, new UpdateUserDataController().handle);
 
 
-// ------------------ VIST ORDER -------------------
-router.post('/visit-order', new CreateVisitOrderController().handle);
+// ------------------ CYCLE -------------------
+router.post('/cycle', new CreateCycleController().handle);
 
-router.get('/visit-order', isAuthenticated, new GetVisitOrderController().handle);
+router.patch('cycle', isAuthenticated, new PatchCycleController().handle);
 
-router.get('/visit-orders', isAuthenticated, new GetVisitOrdersController().handle);
+router.get('/cycle', isAuthenticated, new GetCycleController().handle);
 
-// ------------------- VISITATION -------------------
+router.get('/cycles', isAuthenticated, new ListCyclesController().handle);
+
+
+
+// ------------------ VISITATION AREA -------------------
+router.post('/visitation-area', new CreateVisitationAreaController().handle);
+
+router.patch('/visitation-area', isAuthenticated, new PatchVisitationAreaController().handle);
+
+router.get('/visitation-area', isAuthenticated, new GetVisitationAreaController().handle);
+
+router.get('/visitation-areas', isAuthenticated, new ListVisitationAreasCycleController().handle);
+
+
+
+// ------------------ VISITATION -------------------
 router.post('/visitation', isAuthenticated, new CreateVisitationController().handle);
+
+router.put('/visitation', isAuthenticated, new UpdateVisitationController().handle);
 
 router.get('/visitation', isAuthenticated, new GetVisitationController().handle);
 
-router.get('/visitations/visit-order', isAuthenticated, new ListVisitationsOrderController().handle);
-
-router.patch('/visitation', isAuthenticated, new UpdateVisitationController().handle);
+router.get('/visitations', isAuthenticated, new ListVisitationsController().handle);
 
 
 export { router };

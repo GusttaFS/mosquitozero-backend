@@ -1,23 +1,10 @@
 import prismaClient from "../../prisma";
 
-
-interface VisitationRequest {
-    visitation_id: string
-}
-
-
 class GetVisitationService {
-    async execute({ visitation_id }: VisitationRequest) {
+    async execute(visitation_id : string) {
         const visitation = prismaClient.visitation.findFirst({
             where: {
                 id: visitation_id
-            },
-            select: {
-                id: true,
-                data: true,
-                created_at: true,
-                updated_at: true,
-                visit_order: true
             }
         });
 
