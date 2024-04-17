@@ -44,9 +44,10 @@ model Cycle {
 }
 
 model VisitationArea {
-  id           String  @id @default(uuid())
-  data         Json
-  is_completed Boolean @default(false)
+  id                    String @id @default(uuid())
+  data                  Json
+  num_visitations       Int    @default(0)
+  completed_visitations Int    @default(0)
 
   user        User         @relation(fields: [user_id], references: [id])
   user_id     String
@@ -61,8 +62,9 @@ model VisitationArea {
 }
 
 model Visitation {
-  id   String @id @default(uuid())
-  data Json
+  id           String  @id @default(uuid())
+  data         Json
+  is_completed Boolean @default(false)
 
   visitation_area    VisitationArea @relation(fields: [visitation_area_id], references: [id])
   visitation_area_id String

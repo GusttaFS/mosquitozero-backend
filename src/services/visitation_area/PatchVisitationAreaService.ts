@@ -13,7 +13,6 @@ class PatchVisitationAreaService {
                 id: visitation_area_id,
             }, 
             data: {
-                is_completed: true,
                 updated_at: new Date()
             }
         });

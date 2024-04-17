@@ -6,9 +6,8 @@ import { GetUserController } from './controllers/user/GetUserController';
 import { UpdateUserDataController } from './controllers/user/UpdateUserDataController';
 
 import { CreateCycleController } from './controllers/cycle/CreateCycleController';
-import { PatchCycleController } from './controllers/cycle/PatchCycleController';
-import { GetCycleController } from './controllers/cycle/GetCycleController';
-import { ListCyclesController } from './controllers/cycle/ListCyclesController';
+import { DeactivateCycleController } from './controllers/cycle/DeactivateCycleController';
+import { GetActiveCycleController } from './controllers/cycle/GetActiveCycleController';
 
 import { CreateVisitationAreaController } from './controllers/visitation_area/CreateVisitationAreaController';
 import { PatchVisitationAreaController } from './controllers/visitation_area/PatchVisitationAreaController';
@@ -21,6 +20,8 @@ import { GetVisitationController } from './controllers/visitation/GetVisitationC
 import { ListVisitationsController } from './controllers/visitation/ListVisitationsController';
 
 import { isAuthenticated } from './middlewares/isAuthenticated';
+import { CompleteVisitationController } from './controllers/visitation/CompleteVisitationController';
+import { ListNoActiveCyclesController } from './controllers/cycle/ListNoActiveCyclesController';
 
 
 const router = Router();
@@ -40,11 +41,11 @@ router.get('/user', isAuthenticated, new GetUserController().handle);
 // ------------------ CYCLE -------------------
 router.post('/cycle', new CreateCycleController().handle);
 
-router.patch('cycle', isAuthenticated, new PatchCycleController().handle);
+router.patch('cycle', isAuthenticated, new DeactivateCycleController().handle);
 
-router.get('/cycle', isAuthenticated, new GetCycleController().handle);
+router.get('/cycle', isAuthenticated, new GetActiveCycleController().handle);
 
-router.get('/cycles', isAuthenticated, new ListCyclesController().handle);
+router.get('/cycles', isAuthenticated, new ListNoActiveCyclesController().handle);
 
 
 
@@ -63,6 +64,8 @@ router.get('/visitation-areas', isAuthenticated, new ListVisitationAreasCycleCon
 router.post('/visitation', isAuthenticated, new CreateVisitationController().handle);
 
 router.put('/visitation', isAuthenticated, new UpdateVisitationController().handle);
+
+router.patch('/visitation', isAuthenticated, new CompleteVisitationController().handle);
 
 router.get('/visitation', isAuthenticated, new GetVisitationController().handle);
 

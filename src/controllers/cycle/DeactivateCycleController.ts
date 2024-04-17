@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
-import { PatchCycleService } from '../../services/cycle/PatchCycleService';
+import { DeactivateCycleService } from '../../services/cycle/DeactivateCycleService';
 import { validateField } from '../../validators/validateField';
 
 
-class PatchCycleController {
+class DeactivateCycleController {
     async handle(req: Request, res: Response) {
         const cycle_id = req.headers.cycle_id as string;
 
         validateField(cycle_id, 'id');
 
-        const patchCycleService = new PatchCycleService();
-        const cycle = await patchCycleService.execute({
+        const deactivateCycleService = new DeactivateCycleService();
+        const cycle = await deactivateCycleService.execute({
             cycle_id
         });
 
@@ -22,4 +22,4 @@ class PatchCycleController {
     }
 }
 
-export { PatchCycleController };
+export { DeactivateCycleController };

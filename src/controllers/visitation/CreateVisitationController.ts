@@ -18,6 +18,10 @@ class CreateVisitationController {
             data 
         });
         
+        if (!visitation) {
+            throw Error('visitation area does not exist');
+        }
+        
         return res.status(201).json(visitation);
     };
 };

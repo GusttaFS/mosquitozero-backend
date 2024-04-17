@@ -6,7 +6,7 @@ interface CycleRequest {
 }
 
 
-class PatchCycleService {
+class DeactivateCycleService {
     async execute({ cycle_id }: CycleRequest) {
         const cycle = await prismaClient.cycle.update({
             where: {
@@ -22,4 +22,4 @@ class PatchCycleService {
     }
 }
 
-export { PatchCycleService };
+export { DeactivateCycleService };

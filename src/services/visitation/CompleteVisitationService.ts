@@ -1,0 +1,52 @@
+import prismaClient from "../../prisma";
+
+
+interface VisitationRequest {
+    visitation_area_id: string;
+    visitation_id: string;
+}
+
+
+class CompleteVisitationService {
+    async execute({ visitation_id, visitation_area_id }: VisitationRequest) {
+        const visitationArea = await prismaClient.visitationArea.findFirst({
+            where: {
+                id: visitation_area_id
+            }
+        });
+
+        const visitation = await prismaClient.visitation.findFirst({
+            where: {
+                id: visitation_id
+            }
+        });
+
+        if (visitationArea && !visitation.is_completed) {
+            const newCompletedVisitations = (visitationArea.completed_visitations + 1);
+
+            await prismaClient.visitationArea.update({
+                where: {
+                    id: visitation_area_id
+                },
+                data: {
+                    completed_visitations: newCompletedVisitations,
+                    updated_at: new Date()
+                }
+            });
+        }
+
+        const visitationUpdated = await prismaClient.visitation.update({
+            where: {
+                id: visitation_id,
+                visitation_area_id: visitation_area_id
+            }, data: {
+                is_completed: true,
+                updated_at: new Date()
+            }
+        });
+
+        return visitationUpdated;
+    }
+}
+
+export { CompleteVisitationService };

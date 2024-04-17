@@ -1,11 +1,11 @@
 import prismaClient from "../../prisma";
 
 
-class GetCycleService {
-    async execute(cycle_id: string) {
+class GetActiveCycleService {
+    async execute() {
         const cycle = await prismaClient.cycle.findFirst({
             where: {
-                id: cycle_id
+                is_active: true
             }
         });
 
@@ -13,4 +13,4 @@ class GetCycleService {
     }
 }
 
-export { GetCycleService };
+export { GetActiveCycleService };

@@ -18,6 +18,7 @@ class ListVisitationsService {
             select: {
                 id: true,
                 data: true,
+                is_completed: true,
             }
         });
 
