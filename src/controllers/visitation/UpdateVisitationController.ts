@@ -7,15 +7,21 @@ import { validateField } from '../../validators/validateField';
 class UpdateVisitationController {
     async handle(req: Request, res: Response) {
         const visitation_id = req.headers.visitation_id as string;
-        const { data } = req.body;
+        const { data, deposito, amostra, tratamento } = req.body;
 
         validateField(visitation_id, 'visitation id')
         validateData(data);
+        validateData(deposito);
+        validateData(amostra);
+        validateData(tratamento);
 
         const updateVisitationService = new UpdateVisitationService();
         const visitation = await updateVisitationService.execute({
             visitation_id,
-            data
+            data,
+            deposito,
+            amostra,
+            tratamento
         });
 
         if (!visitation) {

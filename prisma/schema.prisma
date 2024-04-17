@@ -64,6 +64,9 @@ model VisitationArea {
 model Visitation {
   id           String  @id @default(uuid())
   data         Json
+  deposito     Json
+  amostra      Json
+  tratamento   Json
   is_completed Boolean @default(false)
 
   visitation_area    VisitationArea @relation(fields: [visitation_area_id], references: [id])

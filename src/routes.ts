@@ -10,7 +10,6 @@ import { DeactivateCycleController } from './controllers/cycle/DeactivateCycleCo
 import { GetActiveCycleController } from './controllers/cycle/GetActiveCycleController';
 
 import { CreateVisitationAreaController } from './controllers/visitation_area/CreateVisitationAreaController';
-import { PatchVisitationAreaController } from './controllers/visitation_area/PatchVisitationAreaController';
 import { GetVisitationAreaController } from './controllers/visitation_area/GetVisitationAreaController';
 import { ListVisitationAreasCycleController } from './controllers/visitation_area/ListVisitationAreasCycleController';
 
@@ -51,8 +50,6 @@ router.get('/cycles', isAuthenticated, new ListNoActiveCyclesController().handle
 
 // ------------------ VISITATION AREA -------------------
 router.post('/visitation-area', new CreateVisitationAreaController().handle);
-
-router.patch('/visitation-area', isAuthenticated, new PatchVisitationAreaController().handle);
 
 router.get('/visitation-area', isAuthenticated, new GetVisitationAreaController().handle);
 
