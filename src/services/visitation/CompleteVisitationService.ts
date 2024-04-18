@@ -42,6 +42,12 @@ class CompleteVisitationService {
             }, data: {
                 is_completed: true,
                 updated_at: new Date()
+            }, select: {
+                id: true,
+                visitation_area_id: true,
+                is_completed: true,
+                created_at: true,
+                updated_at: true,
             }
         });
 
