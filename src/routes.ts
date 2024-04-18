@@ -19,7 +19,7 @@ import { GetVisitationController } from './controllers/visitation/GetVisitationC
 import { ListVisitationsController } from './controllers/visitation/ListVisitationsController';
 
 import { isAuthenticated } from './middlewares/isAuthenticated';
-import { CompleteVisitationController } from './controllers/visitation/CompleteVisitationController';
+import { PatchVisitationController } from './controllers/visitation/PatchVisitationController';
 import { ListNoActiveCyclesController } from './controllers/cycle/ListNoActiveCyclesController';
 
 
@@ -62,7 +62,7 @@ router.post('/visitation', isAuthenticated, new CreateVisitationController().han
 
 router.put('/visitation', isAuthenticated, new UpdateVisitationController().handle);
 
-router.patch('/visitation', isAuthenticated, new CompleteVisitationController().handle);
+router.patch('/visitation', isAuthenticated, new PatchVisitationController().handle);
 
 router.get('/visitation', isAuthenticated, new GetVisitationController().handle);
 

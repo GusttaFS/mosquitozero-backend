@@ -7,7 +7,7 @@ interface VisitationRequest {
 }
 
 
-class CompleteVisitationService {
+class PatchVisitationService {
     async execute({ visitation_id, visitation_area_id }: VisitationRequest) {
         const visitationArea = await prismaClient.visitationArea.findFirst({
             where: {
@@ -33,6 +33,20 @@ class CompleteVisitationService {
                     updated_at: new Date()
                 }
             });
+        } 
+
+        if (visitationArea && visitation.is_completed) {
+            const newCompletedVisitations = (visitationArea.completed_visitations - 1);
+
+            await prismaClient.visitationArea.update({
+                where: {
+                    id: visitation_area_id
+                },
+                data: {
+                    completed_visitations: newCompletedVisitations,
+                    updated_at: new Date()
+                }
+            });
         }
 
         const visitationUpdated = await prismaClient.visitation.update({
@@ -40,7 +54,7 @@ class CompleteVisitationService {
                 id: visitation_id,
                 visitation_area_id: visitation_area_id
             }, data: {
-                is_completed: true,
+                is_completed: !visitation.is_completed,
                 updated_at: new Date()
             }, select: {
                 id: true,
@@ -55,4 +69,4 @@ class CompleteVisitationService {
     }
 }
 
-export { CompleteVisitationService };
+export { PatchVisitationService };
