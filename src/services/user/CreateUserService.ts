@@ -8,11 +8,12 @@ interface UserRequest {
     password: string;
     name: string;
     data: JsonObject;
+    cargo: string;
 };
 
 
 class CreateUserService {
-    async execute({ email, password, name, data }: UserRequest) {
+    async execute({ email, password, name, data, cargo }: UserRequest) {
         const passwordHash = await hash(password, 8);
         
         const form = await prismaClient.user.create({
@@ -21,6 +22,7 @@ class CreateUserService {
                 password: passwordHash,
                 name: name,
                 data: data,
+                cargo: cargo
             },
             select: {
                 id: true,

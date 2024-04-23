@@ -21,6 +21,7 @@ model User {
   password String
   name     String
   data     Json
+  cargo    String
 
   visitation_areas VisitationArea[]
 
