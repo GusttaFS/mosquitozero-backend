@@ -7,34 +7,44 @@ interface UserRequest {
     email: string;
     password: string;
     name: string;
+    type: string;
     data: JsonObject;
-    cargo: string;
 };
 
 
 class CreateUserService {
-    async execute({ email, password, name, data, cargo }: UserRequest) {
+    async execute({ email, password, name, type, data }: UserRequest) {
+
+        const user = await prismaClient.user.findFirst({
+            where: {
+                email: email
+            }
+        });
+        if (user) {
+            throw new Error(`User with email ${email} already exists`)
+        }
+
         const passwordHash = await hash(password, 8);
-        
-        const form = await prismaClient.user.create({
+        const newUser = await prismaClient.user.create({
             data: {
                 email: email,
                 password: passwordHash,
                 name: name,
-                data: data,
-                cargo: cargo
-            },
+                type: type,
+                data: data
+            }, 
             select: {
                 id: true,
                 email: true,
                 name: true,
+                type: true,
                 data: true,
                 created_at: true,
                 updated_at: true
             }
         });
-        
-        return form;
+
+        return newUser;
     }
 }
 

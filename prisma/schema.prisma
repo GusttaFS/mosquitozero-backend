@@ -20,8 +20,8 @@ model User {
   email    String
   password String
   name     String
+  type     String
   data     Json
-  cargo    String
 
   visitation_areas VisitationArea[]
 

@@ -13,7 +13,7 @@ class AuthUserService {
     async execute({ email, password }: AuthResquest) {
         const user = await prismaClient.user.findFirst({
             where: {
-                email: email,
+                email: email
             }
         });
         if (!user) { throw new Error("User or password incorrect"); }
@@ -24,12 +24,12 @@ class AuthUserService {
         const token = sign(
             {
                 email: user.email,
-                cargo: user.cargo
+                type: user.type
             },
             process.env.JWT_SECRET,
             {
                 subject: user.id,
-                expiresIn: '1d',
+                expiresIn: '1d'
             }
         );
         
@@ -37,7 +37,7 @@ class AuthUserService {
             id: user.id,
             email: user.email,
             name: user.name,
-            cargo: user.cargo,
+            type: user.type,
             token: token
         };
     };

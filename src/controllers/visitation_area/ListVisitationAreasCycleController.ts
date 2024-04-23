@@ -5,7 +5,7 @@ import { validateField } from '../../validators/validateField';
 
 class ListVisitationAreasCycleController {
     async handle(req: Request, res: Response) {
-        const user_id = req.user_id;
+        const user_id = req.headers.user_id as string;
         const cycle_id = req.headers.cycle_id as string;
 
         validateField(user_id, 'user id');
