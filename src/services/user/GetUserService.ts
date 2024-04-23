@@ -11,6 +11,7 @@ class GetUserService {
                 id: true,
                 email: true,
                 name: true,
+                cargo: true,
                 data: true,
                 created_at: true,
                 updated_at: true,
