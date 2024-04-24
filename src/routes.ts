@@ -2,11 +2,13 @@ import { Router } from 'express';
 
 import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController';
+import { GetAuthUserController } from './controllers/user/GetAuthUserController';
 import { GetUserController } from './controllers/user/GetUserController';
 import { ListAgenteUsersController } from './controllers/user/ListAgenteUsersController';
 
 import { CreateCycleController } from './controllers/cycle/CreateCycleController';
 import { GetActiveCycleController } from './controllers/cycle/GetActiveCycleController';
+import { GetCycleController } from './controllers/cycle/GetCycleController';
 import { ListNoActiveCyclesController } from './controllers/cycle/ListNoActiveCyclesController';
 
 import { CreateVisitationAreaController } from './controllers/visitation_area/CreateVisitationAreaController';
@@ -32,13 +34,17 @@ router.post('/login', new AuthUserController().handle);
 
 router.get('/users', isAuthenticated, new ListAgenteUsersController().handle);
 
-router.get('/user', isAuthenticated, new GetUserController().handle)
+router.get('/user', isAuthenticated, new GetAuthUserController().handle);
+
+router.get('/user/id', isAuthenticated, new GetUserController().handle);
 
 
 // ------------------ CYCLE -------------------
 router.post('/cycle', isAuthenticated, new CreateCycleController().handle);
 
 router.get('/cycle', isAuthenticated, new GetActiveCycleController().handle);
+
+router.get('/cycle/id', isAuthenticated, new GetCycleController().handle);
 
 router.get('/cycles', isAuthenticated, new ListNoActiveCyclesController().handle);
 
