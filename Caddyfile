@@ -1,3 +1,7 @@
+{
+    admin 0.0.0.0:2020
+}
+
 54.232.252.129.nip.io {
     reverse_proxy localhost:8080
 }
