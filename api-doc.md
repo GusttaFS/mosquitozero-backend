@@ -32,12 +32,12 @@ https://54.232.252.129.nip.io
 
 ### Visitation
 
-- [Criar uma visita](#Criar-um-usuário)
-- [Realizar o Login](#Realizar-o-Login)
-- [Obter os dados do usuário logado](#Obter-os-dados-do-usuário-logado)
-- [Obter os dados do usuário pelo id](#Obter-os-dados-do-usuário-pelo-id)
-- [Listar os usuários do tipo agente](#Listar-os-usuários-do-tipo-agente)
-- 
+- [Criar uma visita](#Criar-uma-visita)
+- [Obter os dados de uma visita](#Obter-os-dados-de-uma-visita)
+- [Listar as visitas de uma area](#Listar-as-visitas-de-uma-area)
+- [Atualizar os dados de uma visita](#Atualizar-os-dados-de-uma-visita)
+- [Marcar visita como concluida ou pendente](#Marcar-visita-como-concluida-ou-pendente)
+
 ## Endpoints
 
 ### *Criar um usuário*
@@ -429,7 +429,7 @@ curl --location 'URL_API/users' \
 
 `Precisa de Autenticação`
 
-Este endpoint permite a criação de um novo ciclo no sistema fornecendo o "data", um objeto *JSON* que deve conter os campos "ciclo" e "ano", necessários para o cadastro do ciclo. Em retorno receberá um *JSON* contendo o ciclo recém cadastrado no sistema do MosquitoZero.
+Este endpoint permite a criação de um novo ciclo no sistema fornecendo o "data", um objeto *JSON* que deve conter os campos "ciclo" e "ano", necessários para o cadastro do ciclo. Em retorno receberá um *JSON* contendo o ciclo recém cadastrado no sistema do MosquitoZero. Quando um novo ciclo é criado o ciclo ativo anterior ao novo é desativado.
 
 #### URL
 ````
@@ -989,3 +989,701 @@ curl --location 'URL_API/visitation-areas' \
 ````
 
 ----
+### *Criar uma visita*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a criação de um nova visita no sistema fornecendo o "data", "amostra", "despositos" e "tratamento", objetos *JSON* que juntos representam as partes do formulario de pesquisa, necessários para o cadastro da vista. Em retorno receberá um *JSON* contendo a visita recém cadastrado no sistema do MosquitoZero. A visita deve ser associada a area de visita cadastrada no sistema.
+
+#### URL
+````
+POST URL_API/visitation
+````
+
+#### Header
+
+* `Bearer Token`  
+* `visitation_area_id`
+
+#### Body
+
+| Parâmetros | Tipo   | Requisito | Descrição  |
+| ---------- | ------ | ----------- | ------------ |
+| `data` | *JSON* | Obrigatório | As informações referentes a primeira parte do formulario de visita. |
+| `depositos` | *JSON* | Obrigatório | As informações referentes ao numero de depositos. |
+| `amostra` | *JSON* | Obrigatório | As informações referentes a coleta de amostra. |
+| `tratamento` | *JSON* | Obrigatório | As informações referentes ao tratamento. |
+
+#### Exemplo
+
+* Body
+````
+{
+  "data": {
+    "quarteirao": "Quarteirão 1",
+    "lado": "Lado A",
+    "logradouro": "Rua Principal",
+    "numero": "123",
+    "complemento": "Apartamento 101",
+    "horario": "09:00",
+    "imovel": { "value": "Casa", "label": "Casa" },
+    "visita": { "value": "Visita 1", "label": "Visita 1" },
+    "pendencia": { "value": "Pendência 1", "label": "Pendência 1" }
+  },
+  "deposito": {
+    "a1": 5,
+    "a2": 3,
+    "b": 2,
+    "c": 0,
+    "d1": 1,
+    "d2": 0,
+    "e": 0,
+    "eliminado": 2,
+    "inspecionados": 10
+  },
+  "amostra": {
+    "inicial": "A1",
+    "final": "A5",
+    "tubitos": 20
+  },
+  "tratamento": {
+    "qtd_dep_elimind": 3,
+    "imoveis_tratd": 8,
+    "tipo_larvcd1": "Tipo A",
+    "tipo_larvcd2": "Tipo B",
+    "qtd_grms_larvcd1": 2,
+    "qtd_grms_larvcd2": 3,
+    "qtd_dep_trat_larvcd1": 2,
+    "qtd_dep_trat_larvcd2": 1,
+    "tipo_adultcd": "Tipo X",
+    "qtd_crgs_adultcd": 5
+  }
+}
+````
+
+* cURL
+````
+curl --location 'URL_API/visitation' \
+--header 'visitation_area_id: 3d634068-19d6-4bd1-8d31-f66eb4054de2' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI' \
+--data '{
+  "data": {
+    "quarteirao": "Quarteirão 1",
+    "lado": "Lado A",
+    "logradouro": "Rua Principal",
+    "numero": "123",
+    "complemento": "Apartamento 101",
+    "horario": "09:00",
+    "imovel": { "value": "Casa", "label": "Casa" },
+    "visita": { "value": "Visita 1", "label": "Visita 1" },
+    "pendencia": { "value": "Pendência 1", "label": "Pendência 1" }
+  },
+  "deposito": {
+    "a1": 5,
+    "a2": 3,
+    "b": 2,
+    "c": 0,
+    "d1": 1,
+    "d2": 0,
+    "e": 0,
+    "eliminado": 2,
+    "inspecionados": 10
+  },
+  "amostra": {
+    "inicial": "A1",
+    "final": "A5",
+    "tubitos": 20
+  },
+  "tratamento": {
+    "qtd_dep_elimind": 3,
+    "imoveis_tratd": 8,
+    "tipo_larvcd1": "Tipo A",
+    "tipo_larvcd2": "Tipo B",
+    "qtd_grms_larvcd1": 2,
+    "qtd_grms_larvcd2": 3,
+    "qtd_dep_trat_larvcd1": 2,
+    "qtd_dep_trat_larvcd2": 1,
+    "tipo_adultcd": "Tipo X",
+    "qtd_crgs_adultcd": 5
+  }
+}'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `201 CREATED` | *JSON* contendo a visita criada. |
+
+#### Exemplo 
+````
+{
+    "id": "d5ae7d0b-33cb-49de-9390-6291933cd74e",
+    "data": {
+        "lado": "Lado A",
+        "imovel": {
+            "label": "Casa",
+            "value": "Casa"
+        },
+        "numero": "123",
+        "visita": {
+            "label": "Visita 1",
+            "value": "Visita 1"
+        },
+        "horario": "09:00",
+        "pendencia": {
+            "label": "Pendência 1",
+            "value": "Pendência 1"
+        },
+        "logradouro": "Rua Principal",
+        "quarteirao": "Quarteirão 1",
+        "complemento": "Apartamento 101"
+    },
+    "deposito": {
+        "b": 2,
+        "c": 0,
+        "e": 0,
+        "a1": 5,
+        "a2": 3,
+        "d1": 1,
+        "d2": 0,
+        "eliminado": 2,
+        "inspecionados": 10
+    },
+    "amostra": {
+        "final": "A5",
+        "inicial": "A1",
+        "tubitos": 20
+    },
+    "tratamento": {
+        "tipo_adultcd": "Tipo X",
+        "tipo_larvcd1": "Tipo A",
+        "tipo_larvcd2": "Tipo B",
+        "imoveis_tratd": 8,
+        "qtd_dep_elimind": 3,
+        "qtd_crgs_adultcd": 5,
+        "qtd_grms_larvcd1": 2,
+        "qtd_grms_larvcd2": 3,
+        "qtd_dep_trat_larvcd1": 2,
+        "qtd_dep_trat_larvcd2": 1
+    },
+    "is_completed": false,
+    "visitation_area_id": "3d634068-19d6-4bd1-8d31-f66eb4054de2",
+    "created_at": "2024-05-04T22:59:22.325Z",
+    "updated_at": "2024-05-04T22:59:22.325Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `400 Bad Request`
+````
+{
+    "error": "data is not set"
+}
+````
+````
+{
+    "error": "amostra can't be empty"
+}
+````
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Obter os dados de uma visita*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a obtenção dos dados de uma visita pelo id da mesma no sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/visitation
+````
+
+#### Header
+
+* `Bearer Token` 
+* `visitation_id`
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'URL_API/visitation' \
+--header 'visitation_id: d5ae7d0b-33cb-49de-9390-6291933cd74e' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | *JSON* contendo a visita com o id fornecido. |
+
+#### Exemplo 
+````
+{
+    "id": "d5ae7d0b-33cb-49de-9390-6291933cd74e",
+    "data": {
+        "lado": "Lado A",
+        "imovel": {
+            "label": "Casa",
+            "value": "Casa"
+        },
+        "numero": "123",
+        "visita": {
+            "label": "Visita 1",
+            "value": "Visita 1"
+        },
+        "horario": "09:00",
+        "pendencia": {
+            "label": "Pendência 1",
+            "value": "Pendência 1"
+        },
+        "logradouro": "Rua Principal",
+        "quarteirao": "Quarteirão 1",
+        "complemento": "Apartamento 101"
+    },
+    "deposito": {
+        "b": 2,
+        "c": 0,
+        "e": 0,
+        "a1": 5,
+        "a2": 3,
+        "d1": 1,
+        "d2": 0,
+        "eliminado": 2,
+        "inspecionados": 10
+    },
+    "amostra": {
+        "final": "A5",
+        "inicial": "A1",
+        "tubitos": 20
+    },
+    "tratamento": {
+        "tipo_adultcd": "Tipo X",
+        "tipo_larvcd1": "Tipo A",
+        "tipo_larvcd2": "Tipo B",
+        "imoveis_tratd": 8,
+        "qtd_dep_elimind": 3,
+        "qtd_crgs_adultcd": 5,
+        "qtd_grms_larvcd1": 2,
+        "qtd_grms_larvcd2": 3,
+        "qtd_dep_trat_larvcd1": 2,
+        "qtd_dep_trat_larvcd2": 1
+    },
+    "is_completed": false,
+    "visitation_area_id": "3d634068-19d6-4bd1-8d31-f66eb4054de2",
+    "created_at": "2024-05-04T22:59:22.325Z",
+    "updated_at": "2024-05-04T22:59:22.325Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Listar as visitas de uma area*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a listagem de todos as visitas que estejam associadas a uma area de visita no do sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/visitations
+````
+
+#### Header
+
+* `Bearer Token` 
+* `visitation_area_id` 
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'URL_API/visitations' \
+--header 'visitation_area_id: 3d634068-19d6-4bd1-8d31-f66eb4054de2' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | Lista de visitas associadas a area de visita fornecida. |
+
+#### Exemplo 
+````
+[
+    {
+        "id": "d5ae7d0b-33cb-49de-9390-6291933cd74e",
+        "data": {
+            "lado": "Lado A",
+            "imovel": {
+                "label": "Casa",
+                "value": "Casa"
+            },
+            "numero": "123",
+            "visita": {
+                "label": "Visita 1",
+                "value": "Visita 1"
+            },
+            "horario": "09:00",
+            "pendencia": {
+                "label": "Pendência 1",
+                "value": "Pendência 1"
+            },
+            "logradouro": "Rua Principal",
+            "quarteirao": "Quarteirão 1",
+            "complemento": "Apartamento 101"
+        },
+        "is_completed": false
+    },
+    {
+        "id": "19a7bef2-c503-43ff-b466-2d2adfc43271",
+        "data": {
+            "lado": "D",
+            "imovel": "Comercial",
+            "numero": "2",
+            "visita": "Normal",
+            "logradouro": "Rua Nova",
+            "quarteirao": "1",
+            "complemento": "Super"
+        },
+        "is_completed": false
+    }
+]
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Atualizar os dados de uma visita*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a atualização de um visita pelo id, fornecendo o "data", "amostra", "despositos" e "tratamento", objetos *JSON* que juntos representam as partes do formulario de pesquisa, necessários para a atualização dos dados da vista. Em retorno receberá um *JSON* contendo a visita atualizada no sistema do MosquitoZero.
+
+
+#### URL
+````
+PUT URL_API/visitation
+````
+
+#### Header
+
+* `Bearer Token`  
+* `visitation_id`
+
+#### Body
+
+| Parâmetros | Tipo   | Requisito | Descrição  |
+| ---------- | ------ | ----------- | ------------ |
+| `data` | *JSON* | Obrigatório | As informações referentes a primeira parte do formulario de visita. |
+| `depositos` | *JSON* | Obrigatório | As informações referentes ao numero de depositos. |
+| `amostra` | *JSON* | Obrigatório | As informações referentes a coleta de amostra. |
+| `tratamento` | *JSON* | Obrigatório | As informações referentes ao tratamento. |
+
+#### Exemplo
+
+* Body
+````
+{
+  "data": {
+    "quarteirao": "Quarteirão 1",
+    "lado": "Lado A",
+    "logradouro": "Rua Principal",
+    "numero": "123",
+    "complemento": "Apartamento 101",
+    "horario": "09:00",
+    "imovel": { "value": "Casa", "label": "Casa" },
+    "visita": { "value": "Visita 1", "label": "Visita 1" },
+    "pendencia": { "value": "Pendência 1", "label": "Pendência 1" }
+  },
+  "deposito": {
+    "a1": 5,
+    "a2": 3,
+    "b": 2,
+    "c": 0,
+    "d1": 1,
+    "d2": 0,
+    "e": 0,
+    "eliminado": 2,
+    "inspecionados": 10
+  },
+  "amostra": {
+    "inicial": "A1",
+    "final": "A5",
+    "tubitos": 20
+  },
+  "tratamento": {
+    "qtd_dep_elimind": 3,
+    "imoveis_tratd": 8,
+    "tipo_larvcd1": "Tipo A",
+    "tipo_larvcd2": "Tipo B",
+    "qtd_grms_larvcd1": 2,
+    "qtd_grms_larvcd2": 3,
+    "qtd_dep_trat_larvcd1": 2,
+    "qtd_dep_trat_larvcd2": 1,
+    "tipo_adultcd": "Tipo X",
+    "qtd_crgs_adultcd": 5
+  }
+}
+````
+
+* cURL
+````
+curl --location --request PUT 'localhost:8080/visitation' \
+--header 'visitation_id: d5ae7d0b-33cb-49de-9390-6291933cd74e' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI' \
+--data '{
+  "data": {
+    "quarteirao": "Quarteirão 1",
+    "lado": "Lado A",
+    "logradouro": "Rua Principal",
+    "numero": "123",
+    "complemento": "Apartamento 101",
+    "horario": "09:00",
+    "imovel": { "value": "Casa", "label": "Casa" },
+    "visita": { "value": "Visita 1", "label": "Visita 1" },
+    "pendencia": { "value": "Pendência 1", "label": "Pendência 1" }
+  },
+  "deposito": {
+    "a1": 5,
+    "a2": 3,
+    "b": 2,
+    "c": 0,
+    "d1": 1,
+    "d2": 0,
+    "e": 0,
+    "eliminado": 2,
+    "inspecionados": 10
+  },
+  "amostra": {
+    "inicial": "A1",
+    "final": "A5",
+    "tubitos": 20
+  },
+  "tratamento": {
+    "qtd_dep_elimind": 3,
+    "imoveis_tratd": 8,
+    "tipo_larvcd1": "Tipo A",
+    "tipo_larvcd2": "Tipo B",
+    "qtd_grms_larvcd1": 2,
+    "qtd_grms_larvcd2": 3,
+    "qtd_dep_trat_larvcd1": 2,
+    "qtd_dep_trat_larvcd2": 1,
+    "tipo_adultcd": "Tipo X",
+    "qtd_crgs_adultcd": 5
+  }
+}'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | *JSON* contendo a visita atualizada. |
+
+#### Exemplo 
+````
+{
+    "id": "d5ae7d0b-33cb-49de-9390-6291933cd74e",
+    "data": {
+        "lado": "Lado A",
+        "imovel": {
+            "label": "Casa",
+            "value": "Casa"
+        },
+        "numero": "123",
+        "visita": {
+            "label": "Visita 1",
+            "value": "Visita 1"
+        },
+        "horario": "09:00",
+        "pendencia": {
+            "label": "Pendência 1",
+            "value": "Pendência 1"
+        },
+        "logradouro": "Rua Principal",
+        "quarteirao": "Quarteirão 1",
+        "complemento": "Apartamento 101"
+    },
+    "deposito": {
+        "b": 2,
+        "c": 0,
+        "e": 0,
+        "a1": 5,
+        "a2": 3,
+        "d1": 1,
+        "d2": 0,
+        "eliminado": 2,
+        "inspecionados": 10
+    },
+    "amostra": {
+        "final": "A5",
+        "inicial": "A1",
+        "tubitos": 20
+    },
+    "tratamento": {
+        "tipo_adultcd": "Tipo X",
+        "tipo_larvcd1": "Tipo A",
+        "tipo_larvcd2": "Tipo B",
+        "imoveis_tratd": 8,
+        "qtd_dep_elimind": 3,
+        "qtd_crgs_adultcd": 5,
+        "qtd_grms_larvcd1": 2,
+        "qtd_grms_larvcd2": 3,
+        "qtd_dep_trat_larvcd1": 2,
+        "qtd_dep_trat_larvcd2": 1
+    },
+    "is_completed": false,
+    "visitation_area_id": "3d634068-19d6-4bd1-8d31-f66eb4054de2",
+    "created_at": "2024-05-04T22:59:22.325Z",
+    "updated_at": "2024-05-04T23:10:47.928Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `400 Bad Request`
+````
+{
+    "error": "data is not set"
+}
+````
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Marcar visita como concluida ou pendente*
+
+`Precisa de Autenticação`
+
+Este endpoint permite atualizar uma visita pelo id fornecido, com o status de concluida ou pendente. Se a visita tiver o campo `is_completed` como *true* (concluida) este será modificado para *false* e vice versa.
+
+#### URL
+````
+PATCH URL_API/visitation
+````
+
+#### Header
+
+* `Bearer Token`  
+* `visitation_id`
+* `visitation_area_id`
+
+#### Exemplo
+
+* cURL
+````
+curl --location --request PATCH 'localhost:8080/visitation' \
+--header 'visitation_id: d5ae7d0b-33cb-49de-9390-6291933cd74e' \
+--header 'visitation_area_id: 3d634068-19d6-4bd1-8d31-f66eb4054de2' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `201 CREATED` | *JSON* contendo os campos `id`, `visitation_area_id`, `is_completed` da visita. |
+
+#### Exemplo 
+````
+{
+    "id": "d5ae7d0b-33cb-49de-9390-6291933cd74e",
+    "visitation_area_id": "3d634068-19d6-4bd1-8d31-f66eb4054de2",
+    "is_completed": true,
+    "created_at": "2024-05-04T22:59:22.325Z",
+    "updated_at": "2024-05-04T23:18:06.473Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `400 Bad Request`
+````
+{
+    "error": "visitation_id is not set"
+}
+````
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+-----
