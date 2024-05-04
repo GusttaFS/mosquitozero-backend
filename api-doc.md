@@ -13,10 +13,16 @@ https://54.232.252.129.nip.io
 
 - [Criar um usuário](#Criar-um-usuário)
 - [Realizar o Login](#Realizar-o-Login)
-- [Obter os dados do usuário logado](#Obter-os-dados-do-usuário)
+- [Obter os dados do usuário logado](#Obter-os-dados-do-usuário-logado)
 - [Obter os dados do usuário pelo id](#Obter-os-dados-do-usuário-pelo-id)
 - [Listar os usuários do tipo agente](#Listar-os-usuários-do-tipo-agente)
 
+### Cycle
+
+- [Criar um ciclo](#Criar-um-ciclo)
+- [Obter os dados do ciclo ativo](#Obter-os-dados-do-ciclo-ativo)
+- [Obter os dados do ciclo pelo id](#Obter-os-dados-do-ciclo-pelo-id)
+- [Listar os ciclos inativos](#Listar-os-ciclos-inativos)
 
 ## Endpoints
 
@@ -74,7 +80,7 @@ curl --location 'URL_API/user' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `201 CREATED` | *JSON* contendo os campos `id`, `email`, `name`, `type`, `data` e `created_at`. |
+| `201 CREATED` | *JSON* contendo o usuário criado. |
 
 #### Exemplo 
 ````
@@ -223,10 +229,7 @@ GET URL_API/user
 
 #### Header
 
-`Bearer Token`  
-````
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNzEwMzcxNTg0LCJleHAiOjE3MTA0NTc5ODQsInN1YiI6ImM0ZTJkMDcyLTljNWEtNDFmYi04YWE0LWZlYWNiZjliNzEzNCJ9.FB2pnUBnt12cqkHw5AbdE91fv3I-e_I8saNOjy3aHaU 
-````
+* `Bearer Token`  
 
 #### Exemplo
 
@@ -241,14 +244,13 @@ curl --location 'URL_API/user' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `200 OK` | *JSON* contendo os campos `id`, `email`, `data`, `name`, `type`, `created_at` e `updated_at`. |
+| `200 OK` | *JSON* contendo o usuário logado. |
 
 #### Exemplo 
 ````
 {
     "id": "c4e2d072-9c5a-41fb-8aa4-feacbf9b7134",
     "email": "user@email.com",
-    "password": "mypassword",
     "name": "User",
     "type": "agente",
     "data": {
@@ -290,20 +292,14 @@ GET URL_API/user/id
 
 #### Header
 
-`Bearer Token`  
-````
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NDEwMzMsImV4cCI6MTcxNDkyNzQzMywic3ViIjoiYzA2ODcxNjMtZTQ4NS00NTYzLWI2YTYtZDQ3NDdhZjI1MjI0In0.cwiePQHjyNVFpqWxawp453rodS5KYYfcrRJVFJeEM9s
-````
-`user_id`
-````
-85c4d096-46f2-41f7-aa6c-7fccef52ffbb
-````
+* `Bearer Token`  
+* `user_id`
 
 #### Exemplo
 
 * cURL
 ````
-curl --location 'localhost:8080/user/id' \
+curl --location 'URL_API/user/id' \
 --header 'user_id: 85c4d096-46f2-41f7-aa6c-7fccef52ffbb' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NDEwMzMsImV4cCI6MTcxNDkyNzQzMywic3ViIjoiYzA2ODcxNjMtZTQ4NS00NTYzLWI2YTYtZDQ3NDdhZjI1MjI0In0.cwiePQHjyNVFpqWxawp453rodS5KYYfcrRJVFJeEM9s'
 ````
@@ -312,7 +308,7 @@ curl --location 'localhost:8080/user/id' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `200 OK` | *JSON* contendo os campos `id`, `email`, `data`, `name`, `type`, `created_at` e `updated_at`. |
+| `200 OK` | *JSON* contendo o usuário com o id fornecido. |
 
 #### Exemplo 
 ````
@@ -360,10 +356,7 @@ GET URL_API/users
 
 #### Header
 
-`Bearer Token`  
-````
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwiaWF0IjoxNzEwMzcxNTg0LCJleHAiOjE3MTA0NTc5ODQsInN1YiI6ImM0ZTJkMDcyLTljNWEtNDFmYi04YWE0LWZlYWNiZjliNzEzNCJ9.FB2pnUBnt12cqkHw5AbdE91fv3I-e_I8saNOjy3aHaU 
-````
+* `Bearer Token`  
 
 #### Exemplo
 
@@ -377,7 +370,7 @@ curl --location 'URL_API/users' \
 
 | Status | Resposta |
 | ------ | ------------- |
-| `200 OK` | *JSON* contendo lista de usuários do tipo *agente* com os campos `id`, `name` e `email`. |
+| `200 OK` | Lista de usuários do tipo *agente* com os campos `id`, `name` e `email`. |
 
 #### Exemplo 
 ````
@@ -396,6 +389,294 @@ curl --location 'URL_API/users' \
         "id": "e124b1df-da3a-4fa8-a0aa-3921c180e6b7",
         "email": "agente3@email.com",
         "name": "Agente3"
+    }
+]
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Criar um ciclo*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a criação de um novo ciclo no sistema fornecendo o "data", um objeto *JSON* que deve conter os campos "ciclo" e "ano", necessários para o cadastro do ciclo. Em retorno receberá um *JSON* contendo o ciclo recém cadastrado no sistema do MosquitoZero.
+
+#### URL
+````
+POST URL_API/cycle
+````
+
+#### Header
+
+* `Bearer Token`  
+
+#### Body
+
+| Parâmetros | Tipo   | Requisito | Descrição  |
+| ---------- | ------ | ----------- | ------------ |
+| `data` | *JSON* | Obrigatório | As informações referentes aos campos `ciclo` e `ano`. |
+
+#### Exemplo
+
+* Body
+````
+{
+    "data": {
+        "ciclo": "03",
+        "ano": "2024"
+    }
+}
+````
+
+* cURL
+````
+curl --location 'URL_API/cycle' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NDMwODQsImV4cCI6MTcxNDkyOTQ4NCwic3ViIjoiYzA2ODcxNjMtZTQ4NS00NTYzLWI2YTYtZDQ3NDdhZjI1MjI0In0.29mjQ_a9BAQ6x1fjodxdoGT_Y5jA0RjN_ml05k4ebcA' \
+--data '{
+    "data": {
+        "ciclo": "03",
+        "ano": "2024"
+    }
+}'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `201 CREATED` | *JSON* contendo o ciclo criado. |
+
+#### Exemplo 
+````
+{
+    "id": "dcbfa753-d592-41b7-8338-513f0409c166",
+    "data": {
+        "ano": "2024",
+        "ciclo": "03"
+    },
+    "is_active": true,
+    "created_at": "2024-05-04T17:18:17.567Z",
+    "updated_at": "2024-05-04T17:18:17.567Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `400 Bad Request`
+````
+{
+    "error": "data is not set"
+}
+````
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Obter os dados do ciclo ativo*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a obtenção dos dados do ciclo atualmente ativo no sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/cycle
+````
+
+#### Header
+
+* `Bearer Token`  
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'URL_API/cycle' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NDMwODQsImV4cCI6MTcxNDkyOTQ4NCwic3ViIjoiYzA2ODcxNjMtZTQ4NS00NTYzLWI2YTYtZDQ3NDdhZjI1MjI0In0.29mjQ_a9BAQ6x1fjodxdoGT_Y5jA0RjN_ml05k4ebcA'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | *JSON* contendo o ciclo ativo. |
+
+#### Exemplo 
+````
+{
+    "id": "dcbfa753-d592-41b7-8338-513f0409c166",
+    "data": {
+        "ano": "2024",
+        "ciclo": "03"
+    },
+    "is_active": true,
+    "created_at": "2024-05-04T17:18:17.567Z",
+    "updated_at": "2024-05-04T17:18:17.567Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Obter os dados do ciclo pelo id*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a obtenção dos dados do ciclo pelo id do mesmo no sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/cycle/id
+````
+
+#### Header
+
+* `Bearer Token`  
+* `cycle_id`
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'localhost:8080/cycle/id' \
+--header 'cycle_id: b0d0f948-e5b2-4cd3-9c7c-b1efad36ed7f' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NDMwODQsImV4cCI6MTcxNDkyOTQ4NCwic3ViIjoiYzA2ODcxNjMtZTQ4NS00NTYzLWI2YTYtZDQ3NDdhZjI1MjI0In0.29mjQ_a9BAQ6x1fjodxdoGT_Y5jA0RjN_ml05k4ebcA'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | *JSON* contendo o ciclo com o id fornecido. |
+
+#### Exemplo 
+````
+{
+    "id": "b0d0f948-e5b2-4cd3-9c7c-b1efad36ed7f",
+    "data": {
+        "ano": "2024",
+        "ciclo": "02"
+    },
+    "is_active": false,
+    "created_at": "2024-04-24T19:25:13.048Z",
+    "updated_at": "2024-05-04T17:18:17.542Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `400 Bad Request`
+````
+{
+    "error": "no cycle found"
+}
+````
+
+----
+### *Listar os ciclos inativos*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a listagem de todos os ciclos que estejam inativos no do sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/cycles
+````
+
+#### Header
+
+* `Bearer Token`  
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'URL_API/cycles' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NDMwODQsImV4cCI6MTcxNDkyOTQ4NCwic3ViIjoiYzA2ODcxNjMtZTQ4NS00NTYzLWI2YTYtZDQ3NDdhZjI1MjI0In0.29mjQ_a9BAQ6x1fjodxdoGT_Y5jA0RjN_ml05k4ebcA'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | Lista dos ciclos inativos. |
+
+#### Exemplo 
+````
+[
+    {
+        "id": "b0d0f948-e5b2-4cd3-9c7c-b1efad36ed7f",
+        "data": {
+            "ano": "2024",
+            "ciclo": "02"
+        },
+        "is_active": false,
+        "created_at": "2024-04-24T19:25:13.048Z",
+        "updated_at": "2024-05-04T17:18:17.542Z"
+    },
+    {
+        "id": "c82c471b-cb4e-4622-8a57-8d60385504cd",
+        "data": {
+            "ano": "2024",
+            "ciclo": "01"
+        },
+        "is_active": false,
+        "created_at": "2024-04-24T18:07:32.618Z",
+        "updated_at": "2024-04-24T19:25:13.038Z"
     }
 ]
 ````
