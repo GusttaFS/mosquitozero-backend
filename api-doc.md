@@ -24,6 +24,20 @@ https://54.232.252.129.nip.io
 - [Obter os dados do ciclo pelo id](#Obter-os-dados-do-ciclo-pelo-id)
 - [Listar os ciclos inativos](#Listar-os-ciclos-inativos)
 
+### Visitation Area
+
+- [Criar uma area de visita](#Criar-uma-area-de-visita)
+- [Obter os dados de uma area de visita](#Obter-os-dados-do-ciclo-ativo)
+- [Listar as areas de visita de um agente](#Listar-as-areas-de-visita-de-um-agente)
+
+### Visitation
+
+- [Criar uma visita](#Criar-um-usuário)
+- [Realizar o Login](#Realizar-o-Login)
+- [Obter os dados do usuário logado](#Obter-os-dados-do-usuário-logado)
+- [Obter os dados do usuário pelo id](#Obter-os-dados-do-usuário-pelo-id)
+- [Listar os usuários do tipo agente](#Listar-os-usuários-do-tipo-agente)
+- 
 ## Endpoints
 
 ### *Criar um usuário*
@@ -685,6 +699,282 @@ curl --location 'URL_API/cycles' \
 
 | Status | Resposta |
 | ------ | ------------- |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Criar um area de visita*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a criação de um nova area de visita no sistema fornecendo o "data", um objeto *JSON* que deve conter as informações referentes a area de visita, necessários para o cadastro da area de visita. Em retorno receberá um *JSON* contendo a area de visita recém cadastrado no sistema do MosquitoZero. A area de visita deve ser associada a um ciclo e um usuario cadastrado no sistema.
+
+#### URL
+````
+POST URL_API/visitation-area
+````
+
+#### Header
+
+* `Bearer Token`  
+* `user_id`
+* `cycle_id`
+
+#### Body
+
+| Parâmetros | Tipo   | Requisito | Descrição  |
+| ---------- | ------ | ----------- | ------------ |
+| `data` | *JSON* | Obrigatório | As informações referentes a area de visita. |
+
+#### Exemplo
+
+* Body
+````
+{
+    "data": {
+        "tipo": "residencial",
+        "zona": "urbana",
+        "atividade": "LI-Levantamento de índice",
+        "municipio": "Campina Grande",
+        "nomeLocalidade": "Bodocongó",
+        "categLocalidade": "bairro"
+    }
+}
+````
+
+* cURL
+````
+curl --location 'URL_API/visitation-area' \
+--header 'user_id: 85c4d096-46f2-41f7-aa6c-7fccef52ffbb' \
+--header 'cycle_id: dcbfa753-d592-41b7-8338-513f0409c166' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI' \
+--data '{
+    "data": {
+        "tipo": "residencial",
+        "zona": "urbana",
+        "atividade": "LI-Levantamento de índice",
+        "municipio": "Campina Grande",
+        "nomeLocalidade": "Bodocongó",
+        "categLocalidade": "bairro"
+    }
+}'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `201 CREATED` | *JSON* contendo a area de visita criada. |
+
+#### Exemplo 
+````
+{
+    "id": "832836af-1c0d-4a2d-821f-a9e8b818b947",
+    "data": {
+        "tipo": "residencial",
+        "zona": "urbana",
+        "atividade": "LI-Levantamento de índice",
+        "municipio": "Campina Grande",
+        "nomeLocalidade": "Bodocongó",
+        "categLocalidade": "bairro"
+    },
+    "num_visitations": 0,
+    "completed_visitations": 0,
+    "user_id": "85c4d096-46f2-41f7-aa6c-7fccef52ffbb",
+    "cycle_id": "dcbfa753-d592-41b7-8338-513f0409c166",
+    "created_at": "2024-05-04T22:11:43.425Z",
+    "updated_at": "2024-05-04T22:11:43.425Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `400 Bad Request`
+````
+{
+    "error": "data is not set"
+}
+````
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Obter os dados de uma area de visita*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a obtenção dos dados de uma area de visita pelo id da mesma no sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/visitation-area
+````
+
+#### Header
+
+* `Bearer Token` 
+* `visitation_area_id`
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'URL_API/visitation-area' \
+--header 'visitation_area_id: 832836af-1c0d-4a2d-821f-a9e8b818b947' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | *JSON* contendo a area de visita com o id fornecido. |
+
+#### Exemplo 
+````
+{
+    "id": "832836af-1c0d-4a2d-821f-a9e8b818b947",
+    "data": {
+        "tipo": "residencial",
+        "zona": "urbana",
+        "atividade": "LI-Levantamento de índice",
+        "municipio": "Campina Grande",
+        "nomeLocalidade": "Bodocongó",
+        "categLocalidade": "bairro"
+    },
+    "num_visitations": 0,
+    "completed_visitations": 0,
+    "user_id": "85c4d096-46f2-41f7-aa6c-7fccef52ffbb",
+    "cycle_id": "dcbfa753-d592-41b7-8338-513f0409c166",
+    "created_at": "2024-05-04T22:11:43.425Z",
+    "updated_at": "2024-05-04T22:11:43.425Z"
+}
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
+| `401 Unauthorized` | *None* |
+| `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
+
+#### Exemplo 
+
+* `500 Internal Server Error`
+````
+{
+    "status": "error",
+    "menssage": "Internal server error"
+}
+````
+
+----
+### *Listar as areas de visita de um agente*
+
+`Precisa de Autenticação`
+
+Este endpoint permite a listagem de todos as areas de visitas que estejam associados a um ciclo e um agente no do sistema MosquitoZero.
+
+#### URL
+````
+GET URL_API/visitation-areas
+````
+
+#### Header
+
+* `Bearer Token` 
+* `user_id` 
+* `cycle_id`
+
+
+#### Exemplo
+
+* cURL
+````
+curl --location 'URL_API/visitation-areas' \
+--header 'user_id: 85c4d096-46f2-41f7-aa6c-7fccef52ffbb' \
+--header 'cycle_id: b0d0f948-e5b2-4cd3-9c7c-b1efad36ed7f' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydmlzb3JAZW1haWwuY29tIiwidHlwZSI6InN1cGVydmlzb3IiLCJpYXQiOjE3MTQ4NjA2MTgsImV4cCI6MTcxNDk0NzAxOCwic3ViIjoiM2VmMmVlYWYtN2U2ZC00YTI2LTg5ODQtNDExZDEwYjlkZjE3In0.r_E9Z0NVjII5EE8OTGawbXx0GeIx2JmewSwSBDr44QI'
+````
+
+#### Resposta em caso de sucesso:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `200 OK` | Lista das areas de visitas associadas ao ciclo e agente fornecidos. |
+
+#### Exemplo 
+````
+[
+    {
+        "id": "d9b91b20-77a6-4e32-9aae-86e650fb27ce",
+        "data": {
+            "tipo": "Sede",
+            "zona": "Y",
+            "atividade": "LI-Levantamento de índice",
+            "municipio": "Campina Grande",
+            "cdg_localidade": "2",
+            "catg_localidade": "Area",
+            "nome_localidade": "Nova Area"
+        },
+        "num_visitations": 2,
+        "completed_visitations": 1,
+        "user_id": "85c4d096-46f2-41f7-aa6c-7fccef52ffbb",
+        "cycle_id": "b0d0f948-e5b2-4cd3-9c7c-b1efad36ed7f",
+        "created_at": "2024-04-24T19:38:28.386Z",
+        "updated_at": "2024-04-26T15:57:07.373Z"
+    },
+    {
+        "id": "3d634068-19d6-4bd1-8d31-f66eb4054de2",
+        "data": {
+            "tipo": "Sede",
+            "zona": "X",
+            "atividade": "LI-Levantamento de índice",
+            "municipio": "Campina Grande",
+            "cdg_localidade": "1",
+            "catg_localidade": "Area",
+            "nome_localidade": "Nova Area "
+        },
+        "num_visitations": 1,
+        "completed_visitations": 0,
+        "user_id": "85c4d096-46f2-41f7-aa6c-7fccef52ffbb",
+        "cycle_id": "b0d0f948-e5b2-4cd3-9c7c-b1efad36ed7f",
+        "created_at": "2024-04-24T19:38:09.392Z",
+        "updated_at": "2024-04-24T19:40:43.968Z"
+    }
+]
+````
+
+#### Resposta em caso de erro:
+
+| Status | Resposta |
+| ------ | ------------- |
+| `400 Bad Request` | *JSON* contendo uma mensagem refrente ao erro. |
 | `401 Unauthorized` | *None* |
 | `500 Internal Server Error` | *JSON* contendo uma mensagem refrente ao erro. |
 
